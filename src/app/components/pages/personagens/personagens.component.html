@@ -1,0 +1,40 @@
+<!-- <mat-grid-list cols="2" rowHeight="fit" style="height: 250px;">
+    <mat-grid-tile>1</mat-grid-tile>
+    <mat-grid-tile>2</mat-grid-tile>
+    <mat-grid-tile>3</mat-grid-tile>
+    <mat-grid-tile>4</mat-grid-tile>
+</mat-grid-list> -->
+<div class="character-title">
+    marvel characters
+</div>
+<div class="character-input">
+    <form [formGroup]="formFilter" (ngSubmit)="filter()" novalidate>
+        <fieldset>
+            <mat-form-field>
+                <mat-icon aria-hidden="false" aria-label="Search icon" fontIcon="search"></mat-icon>
+                <input matInput placeholder="Search" formControlName="filter" />
+            </mat-form-field>
+        </fieldset>
+    </form>
+</div>
+<mat-card fxLayout="row wrap">
+    <mat-card class="{{'child-'+i}}" style="width: 250px;margin-bottom: 20px!important;"
+        *ngFor="let character of dataCharacters?.results; let i = index">
+
+        <mat-card-header>
+            <label class="character-avatar-name">
+                {{character?.name}}
+            </label>
+        </mat-card-header>
+        <div>
+            <img class="character-image character-avatar"
+                src="{{character?.thumbnail?.path}}.{{character?.thumbnail?.extension}}" alt="Sem imagem" />
+        </div>
+        <mat-card-content>
+            <p class="character-description">{{character?.description?character?.description:'-'}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+
+    </mat-card>
+</mat-card>
