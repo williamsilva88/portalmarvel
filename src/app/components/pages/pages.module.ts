@@ -7,11 +7,13 @@ import { NgxsModule } from '@ngxs/store';
 import { MainState } from 'src/app/state/main.state';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DialogCharactersDatailComponent } from './personagens/dialog-characters-datail/dialog-characters-datail.component';
 
 @NgModule({
   declarations: [
     PersonagensComponent,
-    HomeComponent
+    HomeComponent,
+    DialogCharactersDatailComponent
   ],
   imports: [
     CommonModule,

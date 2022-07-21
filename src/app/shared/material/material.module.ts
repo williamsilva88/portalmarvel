@@ -5,6 +5,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -14,14 +16,18 @@ import { MatIconModule } from '@angular/material/icon';
     LayoutModule,
     MatGridListModule,
     FlexLayoutModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonToggleModule,
+    MatDialogModule
   ],
-  exports:[
+  exports: [
     MatCardModule,
     LayoutModule,
     MatGridListModule,
     FlexLayoutModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonToggleModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule { }

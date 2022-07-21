@@ -1,25 +1,41 @@
-<!-- <mat-grid-list cols="2" rowHeight="fit" style="height: 250px;">
-    <mat-grid-tile>1</mat-grid-tile>
-    <mat-grid-tile>2</mat-grid-tile>
-    <mat-grid-tile>3</mat-grid-tile>
-    <mat-grid-tile>4</mat-grid-tile>
-</mat-grid-list> -->
 <div class="character-title">
-    marvel characters
+    Marvel Characters
 </div>
 <div class="character-input">
     <form [formGroup]="formFilter" (ngSubmit)="filter()" novalidate>
         <fieldset>
             <mat-form-field>
                 <mat-icon aria-hidden="false" aria-label="Search icon" fontIcon="search"></mat-icon>
-                <input matInput placeholder="Search" formControlName="filter" />
+                <input matInput placeholder="Search" formControlName="filterSelect" />
             </mat-form-field>
         </fieldset>
+        <section>
+            <h4>Order By</h4>
+        </section>
+        <mat-button-toggle-group [formControl]="orderBySelect" aria-label="Font Style" style="margin-right: 5px;">
+            <mat-button-toggle value="none">None</mat-button-toggle>
+            <mat-button-toggle value="name">Name</mat-button-toggle>
+            <mat-button-toggle value="modified">Modified</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group *ngIf="orderBySelect.value !== 'modified'" [formControl]="orderBySelectType"
+            aria-label="Font Style">
+            <mat-button-toggle value="A-Z">A-Z</mat-button-toggle>
+            <mat-button-toggle value="Z-A">Z-A</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group *ngIf="orderBySelect.value === 'modified'" [formControl]="orderBySelectType"
+            aria-label="Font Style">
+            <mat-button-toggle value="ascending">
+                <mat-icon aria-hidden="false" aria-label="ascending" fontIcon="arrow_upward"></mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="descending">
+                <mat-icon aria-hidden="false" aria-label="descending" fontIcon="arrow_downward"></mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
     </form>
 </div>
 <mat-card fxLayout="row wrap">
-    <mat-card class="{{'child-'+i}}" style="width: 250px;margin-bottom: 20px!important;"
-        *ngFor="let character of dataCharacters?.results; let i = index">
+    <mat-card class="{{'child-'+i}} character-card" style="width: 250px;margin-bottom: 20px!important;"
+        *ngFor="let character of dataCharacters?.results; let i = index" (click)="openDetail(character)">
 
         <mat-card-header>
             <label class="character-avatar-name">

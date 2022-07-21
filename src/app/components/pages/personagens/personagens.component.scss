@@ -1,15 +1,9 @@
 .character-card {
-    width: 100%;
-    max-width: 250px;
-    min-width: 100px;
-}
+    cursor: pointer;
 
-.character-avatar {
-    border-radius: 50%;
-}
-
-.character-image {
-    width: 100%;
+    &:hover {
+        background-color: rgba(71, 71, 71, 0.363);
+    }
 }
 
 .character-description {
@@ -53,6 +47,10 @@
     & mat-icon {
         font-size: 28px;
         margin-right: 3px;
+    }
+
+    & label {
+        margin-right: 10px;
     }
 }
 
