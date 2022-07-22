@@ -156,7 +156,7 @@ export interface ComicsResultCharacter {
     thumbnail?: ComicsResultThumbnail | null;
     resourceURI?: string | null;
     comics?: ComicsResultInfo | null;
-    series?: ComicsResultSeries | null;
+    series?: ComicsResultInfo | null;
     stories?: ComicsResultInfo | null;
     events?: ComicsResultInfo | null;
     urls?: Array<ComicsResultUrls> | null
@@ -171,7 +171,7 @@ export class ComicsResultCharacter implements ComicsResultCharacter {
         thumbnail?: ComicsResultThumbnail | null,
         resourceURI?: string | null,
         comics?: ComicsResultInfo | null,
-        series?: ComicsResultSeries | null,
+        series?: ComicsResultInfo | null,
         stories?: ComicsResultInfo | null,
         events?: ComicsResultInfo | null,
         urls?: Array<ComicsResultUrls> | null
@@ -181,9 +181,9 @@ export class ComicsResultCharacter implements ComicsResultCharacter {
         this.description = description ? description : null;
         this.modified = modified ? modified : null;
         this.resourceURI = resourceURI ? resourceURI : null;
-        this.comics = comics ? comics : null;
+        this.comics = comics ? comics : new ComicsResultInfo();
         this.urls = urls ? urls : [];
-        this.series = series ? series : new ComicsResultSeries;
+        this.series = series ? series : new ComicsResultInfo();
         this.thumbnail = thumbnail ? thumbnail : new ComicsResultThumbnail();
         this.stories = stories ? stories : new ComicsResultInfo();
         this.events = events ? events : new ComicsResultInfo();
@@ -199,18 +199,6 @@ export class ComicsResultUrls implements ComicsResultUrls {
     constructor(type?: string, url?: string) {
         this.type = type ? type : null;
         this.url = url ? url : null;
-    }
-}
-
-export interface ComicsResultSeries {
-    resourceURI: string | null;
-    name: string | null;
-}
-
-export class ComicsResultSeries implements ComicsResultSeries {
-    constructor(resourceURI?: string, name?: string) {
-        this.resourceURI = resourceURI ? resourceURI : null;
-        this.name = name ? name : null;
     }
 }
 
@@ -265,15 +253,15 @@ export class ComicsResultThumbnail implements ComicsResultThumbnail {
 export interface ComicsResultInfo {
     available: number | null;
     collectionURI: string | null;
-    items: ComicsResultCreatorsItems | null;
+    items: Array<ComicsResultCreatorsItems> | null;
     returned: number | null;
 }
 
 export class ComicsResultInfo implements ComicsResultInfo {
-    constructor(available?: number, collectionURI?: string, items?: ComicsResultCreatorsItems, returned?: number) {
+    constructor(available?: number, collectionURI?: string, items?: Array<ComicsResultCreatorsItems>, returned?: number) {
         this.available = available ? available : null;
         this.collectionURI = collectionURI ? collectionURI : null;
-        this.items = items ? items : null;
+        this.items = items ? items : [];
         this.returned = returned ? returned : null;
     }
 }
@@ -282,13 +270,15 @@ export interface ComicsResultCreatorsItems {
     resourceURI: string | null;
     name: string | null;
     role: string | null;
+    type: string | null;
 }
 
 export class ComicsResultCreatorsItems implements ComicsResultCreatorsItems {
-    constructor(resourceURI?: string, name?: string, role?: string) {
+    constructor(resourceURI?: string, name?: string, role?: string, type?: string) {
         this.resourceURI = resourceURI ? resourceURI : null;
         this.name = name ? name : null;
         this.role = role ? role : null;
+        this.type = type ? type : null;
     }
 }
 

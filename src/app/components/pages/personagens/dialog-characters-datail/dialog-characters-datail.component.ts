@@ -14,18 +14,20 @@ export interface DialogCharactersDatailData {
 export class DialogCharactersDatailComponent implements OnInit, DialogCharactersDatailData {
 
   character!: ComicsResultCharacter;
+  imagem: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<DialogCharactersDatailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogCharactersDatailData
   ) {
     this.character = data?.character;
+    this.imagem = `${this.character?.thumbnail?.path}.${this.character?.thumbnail?.extension}`;
   }
 
   ngOnInit(): void {
   }
 
-  closeDialog(){
+  closeDialog() {
     this.dialogRef.close();
   }
 
