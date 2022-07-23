@@ -8,7 +8,6 @@
         font-size: 26px;
         font-weight: bold;
         width: 100%;
-        max-width: 300px;
         text-align: center;
         margin-bottom: 10px;
     }
@@ -60,5 +59,38 @@
                 font-weight: bold;
             }
         }
+    }
+}
+
+.character-close {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(184, 184, 184);
+    color: #FFF;
+    margin: -40px;
+    z-index: 999;
+    cursor: pointer;
+
+    &:hover{
+        background-color: rgb(131, 131, 131);
+    }
+
+    & mat-icon{
+        font-size: 30px;
+        font-weight: bold;
+        margin: 10px;
+    }
+}
+
+.character-favorite {
+    text-align: center;
+    color: rgb(211, 214, 24);
+    width: 100%;
+
+    & mat-icon {
+        font-size: 30px;
+        cursor: pointer;
     }
 }

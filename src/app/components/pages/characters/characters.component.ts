@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
 import { CharacterDataContainer, ComicsResultCharacter, PersonagensFilter } from 'src/app/model/comics.model';
-import { CarregarPersonagensMarvelApi } from 'src/app/state/main.actions';
+import { AddFavorite, AddHate, CarregarPersonagensMarvelApi, RemoveFavorite } from 'src/app/state/main.actions';
 import { MainState } from 'src/app/state/main.state';
 import { DialogCharactersDatailComponent } from './dialog-characters-datail/dialog-characters-datail.component';
 
 @Component({
   selector: 'app-personagens',
-  templateUrl: './personagens.component.html',
-  styleUrls: ['./personagens.component.scss']
+  templateUrl: './characters.component.html',
+  styleUrls: ['./characters.component.scss']
 })
-export class PersonagensComponent implements OnInit {
+export class CharactersComponent implements OnInit {
 
   private _unsubscribeAll = new Subject<void>();
   public dataCharacters: CharacterDataContainer | null = null;
@@ -22,6 +23,13 @@ export class PersonagensComponent implements OnInit {
   orderBySelect = new FormControl('none');
   orderBySelectType = new FormControl('none');
   filterSelect = new FormControl('');
+
+  favorite: Array<ComicsResultCharacter> | null = null;
+
+  paginatorLength = 0;
+  paginatorPageSize = 0;
+  paginatorPageSizeOptions: number[] = [5, 10, 25, 100];
+  paginatorIndex = 0;
 
   constructor(
     private _store: Store,
@@ -34,6 +42,13 @@ export class PersonagensComponent implements OnInit {
     this.monitoringState();
     this.createForm();
     this.monitoringFilter();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.paginatorIndex = event.pageIndex ? event.pageIndex : 0;
+    this.paginatorPageSize = event.pageSize ? event.pageSize : 20;
+    event
+    this.filter();
   }
 
   monitoringFilter() {
@@ -68,6 +83,15 @@ export class PersonagensComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data: CharacterDataContainer | null) => {
         this.dataCharacters = data;
+        this.paginatorPageSize = this.dataCharacters?.limit ? this.dataCharacters?.limit : 10;
+        this.paginatorLength = this.dataCharacters?.total ? this.dataCharacters?.total : 0;
+      });
+
+    this._store.select(MainState.favorite)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((data: ComicsResultCharacter[] | null) => {
+        console.log("favorite:", data);
+        this.favorite = data;
       });
   }
 
@@ -81,27 +105,53 @@ export class PersonagensComponent implements OnInit {
 
   filter() {
     const controls: any = this.formFilter.controls;
-    const filter: PersonagensFilter = new PersonagensFilter(
-      undefined,
-      controls?.filterSelect?.value,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      (controls.orderBySelectType?.value === 'Z-A' || controls.orderBySelectType?.value === 'descending' ? '-' : '') + (controls.orderBySelect?.value === 'none' ? '' : controls.orderBySelect?.value)
-    );
+    const filter: PersonagensFilter = new PersonagensFilter();
+    filter.nameStartsWith = controls?.filterSelect?.value;
+    filter.orderBy = ((controls.orderBySelectType?.value === 'Z-A' || controls.orderBySelectType?.value === 'descending' ? '-' : '') + (controls.orderBySelect?.value === 'none' ? '' : controls.orderBySelect?.value));
+    filter.limit = this.paginatorPageSize;
+    filter.offset = (this.paginatorIndex * this.paginatorPageSize);
     this._store.dispatch(new CarregarPersonagensMarvelApi(filter));
   }
 
   openDetail(character: ComicsResultCharacter) {
     const refDialog = this.dialog.open(DialogCharactersDatailComponent, {
-      width: '95%',
+      width: '100%',
       minWidth: '200px',
+      maxWidth: '95vw',
       data: {
         character
       }
     });
+
+    const instance = refDialog.componentInstance.actionRemoveFavorite
+      .subscribe((character: ComicsResultCharacter) => {
+        this.removeFavorite(character);
+        refDialog.close();
+      });
+
+    refDialog.afterClosed().subscribe(() => {
+      instance.unsubscribe();
+    });
   }
 
+
+
+  addFavorite(character: ComicsResultCharacter) {
+    this._store.dispatch(new AddFavorite(character));
+  }
+
+  removeFavorite(character: ComicsResultCharacter) {
+    this._store.dispatch(new RemoveFavorite(character));
+  }
+
+  addHate(character: ComicsResultCharacter) {
+    this._store.dispatch(new AddHate(character));
+  }
+
+  getLengthFavorite() {
+    if (this.favorite?.length)
+      return this.favorite?.length > 0 ? true : false;
+
+    return false;
+  }
 }

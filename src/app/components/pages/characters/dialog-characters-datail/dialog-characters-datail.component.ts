@@ -15,6 +15,7 @@ export class DialogCharactersDatailComponent implements OnInit, DialogCharacters
 
   character!: ComicsResultCharacter;
   imagem: string = '';
+  actionRemoveFavorite = new EventEmitter<ComicsResultCharacter>();
 
   constructor(
     public dialogRef: MatDialogRef<DialogCharactersDatailComponent>,
@@ -29,6 +30,10 @@ export class DialogCharactersDatailComponent implements OnInit, DialogCharacters
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  removeFavorite(character: ComicsResultCharacter) {
+    this.actionRemoveFavorite.emit(character);
   }
 
 }

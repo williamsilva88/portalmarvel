@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainResolver } from '../resolver/main.resolver';
+import { CharactersComponent } from './characters/characters.component';
 import { HomeComponent } from './home/home.component';
-import { PersonagensComponent } from './personagens/personagens.component';
 
 const routes: Routes = [
   {
-    path: 'personagens',
-    component: PersonagensComponent,
+    path: 'characters',
+    component: CharactersComponent,
     resolve: [MainResolver]
   },
   {

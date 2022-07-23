@@ -159,7 +159,8 @@ export interface ComicsResultCharacter {
     series?: ComicsResultInfo | null;
     stories?: ComicsResultInfo | null;
     events?: ComicsResultInfo | null;
-    urls?: Array<ComicsResultUrls> | null
+    urls?: Array<ComicsResultUrls> | null;
+    favorite?: boolean;
 }
 
 export class ComicsResultCharacter implements ComicsResultCharacter {
@@ -174,7 +175,8 @@ export class ComicsResultCharacter implements ComicsResultCharacter {
         series?: ComicsResultInfo | null,
         stories?: ComicsResultInfo | null,
         events?: ComicsResultInfo | null,
-        urls?: Array<ComicsResultUrls> | null
+        urls?: Array<ComicsResultUrls> | null,
+        favorite?: boolean
     ) {
         this.id = id ? id : null;
         this.name = name ? name : null;
@@ -187,6 +189,7 @@ export class ComicsResultCharacter implements ComicsResultCharacter {
         this.thumbnail = thumbnail ? thumbnail : new ComicsResultThumbnail();
         this.stories = stories ? stories : new ComicsResultInfo();
         this.events = events ? events : new ComicsResultInfo();
+        this.favorite = favorite ? favorite : false;
     }
 }
 

@@ -7,6 +7,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -18,7 +21,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     FlexLayoutModule,
     MatIconModule,
     MatButtonToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   exports: [
     MatCardModule,
@@ -27,7 +33,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     FlexLayoutModule,
     MatIconModule,
     MatButtonToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }
