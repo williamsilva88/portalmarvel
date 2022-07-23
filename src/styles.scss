@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-card-header-text{
+    margin: 0px!important;
+}
+
+.character-avatar {
+    border-radius: 50%;
+}
+
+.character-image {
+    width: 100%;
+}
+
+.mat-paginator-container{
+    justify-content: center!important;
+}

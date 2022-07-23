@@ -1,0 +1,29 @@
+<div class="character-close" (click)="closeDialog()">
+    <mat-icon aria-hidden="false" aria-label="Close" fontIcon="close"></mat-icon>
+</div>
+<div class="character-favorite" *ngIf="character?.favorite">
+    <mat-icon aria-hidden="false" aria-label="Star icon" fontIcon="star" (click)="removeFavorite(character)">
+    </mat-icon>
+</div>
+<div class="character-container">
+    <div class="title">{{character.name}}</div>
+    <div><img class="character-image character-avatar" src="{{imagem}}" alt="Sem imagem" /></div>
+    <div class="description">
+        <div class="subtitle">Comics</div>
+        <div class="describe" *ngFor="let comic of character?.comics?.items; let i = index">
+            {{(comic.name?comic.name:'')}}
+        </div>
+        <div class="subtitle">Series</div>
+        <div class="describe" *ngFor="let serie of character?.series?.items; let i = index">
+            {{serie.name?serie.name:''}}
+        </div>
+        <div class="subtitle">Events</div>
+        <div class="describe" *ngFor="let event of character?.events?.items; let i = index">
+            {{event.name?event.name:''}}
+        </div>
+        <div class="subtitle">Stories</div>
+        <div class="describe" *ngFor="let storie of character?.stories?.items; let i = index">
+            {{storie.name?storie.name+' - '+storie.type:''}}
+        </div>
+    </div>
+</div>

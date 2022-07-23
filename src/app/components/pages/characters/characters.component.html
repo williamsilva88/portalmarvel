@@ -1,0 +1,82 @@
+<div class="character-title">
+    Personagens Marvel
+</div>
+<div class="character-input">
+    <form [formGroup]="formFilter" (ngSubmit)="filter()" novalidate>
+        <fieldset>
+            <mat-form-field>
+                <mat-icon (click)="filter()" aria-hidden="false" aria-label="Search icon" fontIcon="search"></mat-icon>
+                <input matInput placeholder="Buscar" formControlName="filterSelect" />
+            </mat-form-field>
+        </fieldset>
+        <section *ngIf="getLengthFavorite()">
+            <h4>Favoritos</h4>
+        </section>
+        <div class="character-favorite">
+            <div *ngFor="let fv of favorite; let i = index">
+                <div>
+                    <img (click)="openDetail(fv)" class="character-image character-avatar"
+                        src="{{fv?.thumbnail?.path}}.{{fv?.thumbnail?.extension}}" alt="Sem imagem" />
+                </div>
+            </div>
+        </div>
+        <section>
+            <h4>Ordenação</h4>
+        </section>
+        <mat-button-toggle-group [formControl]="orderBySelect" aria-label="Font Style" style="margin-right: 5px;">
+            <mat-button-toggle value="none">Nenhum</mat-button-toggle>
+            <mat-button-toggle value="name">Nome</mat-button-toggle>
+            <mat-button-toggle value="modified">Data modificação</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group *ngIf="orderBySelect.value !== 'modified'" [formControl]="orderBySelectType"
+            aria-label="Font Style">
+            <mat-button-toggle value="A-Z">A-Z</mat-button-toggle>
+            <mat-button-toggle value="Z-A">Z-A</mat-button-toggle>
+        </mat-button-toggle-group>
+        <mat-button-toggle-group *ngIf="orderBySelect.value === 'modified'" [formControl]="orderBySelectType"
+            aria-label="Font Style">
+            <mat-button-toggle value="ascending">
+                <mat-icon aria-hidden="false" aria-label="ascending" fontIcon="arrow_upward"></mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="descending">
+                <mat-icon aria-hidden="false" aria-label="descending" fontIcon="arrow_downward"></mat-icon>
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </form>
+</div>
+<mat-paginator [length]="paginatorLength"
+               [pageSize]="paginatorPageSize"
+               [pageSizeOptions]="paginatorPageSizeOptions"
+               (page)="handlePageEvent($event)"
+               aria-label="Selecione a página">
+</mat-paginator>
+<mat-card fxLayout="row wrap" style="flex-direction: row; justify-content: center;">
+    <mat-card class="{{'child-'+i}} character-card" style="width: 250px;margin-bottom: 20px!important;"
+        *ngFor="let character of dataCharacters?.results; let i = index">
+
+        <mat-card-header>
+            <label class="character-avatar-name">
+                {{character?.name}}
+            </label>
+        </mat-card-header>
+        <mat-card-actions>
+            <div class="example-button-row" style="text-align: center;">
+                <button class="action-buttom action-buttom-love" mat-stroked-button color="primary"
+                    (click)="addFavorite(character)">Meu Favorito</button>
+                <button class="action-buttom action-buttom-hate" mat-stroked-button color="primary"
+                    (click)="addHate(character)">Não Gosto</button>
+            </div>
+        </mat-card-actions>
+        <div>
+            <img (click)="openDetail(character)" class="character-image character-avatar"
+                src="{{character?.thumbnail?.path}}.{{character?.thumbnail?.extension}}" alt="Sem imagem" />
+        </div>
+        <div class="favorite" *ngIf="character?.favorite">
+            <mat-icon aria-hidden="false" aria-label="Star icon" fontIcon="star" (click)="removeFavorite(character)">
+            </mat-icon>
+        </div>
+        <mat-card-content>
+            <p class="character-description">{{character?.description?character?.description:''}}</p>
+        </mat-card-content>
+    </mat-card>
+</mat-card>
