@@ -90,7 +90,6 @@ export class CharactersComponent implements OnInit {
     this._store.select(MainState.favorite)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((data: ComicsResultCharacter[] | null) => {
-        console.log("favorite:", data);
         this.favorite = data;
       });
   }
